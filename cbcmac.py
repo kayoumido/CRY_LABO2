@@ -125,9 +125,9 @@ def main():
     print("--------------------------------------")
     print()
 
-    message = b"Envoyer 127'000 CHF vers siteABC"
-    key = b"Thirty two byte key for AES 256!"
-    forgery = b"Envoyer 927'000 CHF vers siteABC"
+    message = b"YES! I will go out we you George"
+    key     = b"Thirty two byte key for AES 256!"
+    forgery = b"NO!! I wont go out we you George"
 
     print("Tagging message to send")
     print("-----------------------")
@@ -173,6 +173,34 @@ def main():
     print()
     print("Verifying CBC-MAC... Tag ", end ="")
     print("valid" if cbcmac_verify(forgery, key, forged_iv, tag) else "invalid")
+
+    print("\n\n")
+
+    print("Forging lab parameters")
+    print("----------------------")
+    message = b"Envoyer 127'000 CHF vers siteABC"
+    iv      = b"3yWzjgcGT0JY5qgP62gFCA=="
+    tag     = b"bqhdQnGwCCTcyWny0UOqRQ=="
+    forgery = b"Envoyer 927'000 CHF vers siteABC"
+
+    print("Parameters:")
+    print("Original message: {}".format(message))
+    print("Original base64 IV: {}".format(iv))
+    print("Base64 tag: {}".format(tag))
+
+    print()
+    print("Forging message")
+    print("---")
+    print("Forged message: {}".format(forgery))
+    forged_iv= cbcmac_break(message, forgery[:AES.block_size], iv)
+    print("Base64 forged IV: {}".format(forged_iv))
+
+    print()
+    print("Comparing 1st block before AES-256 ciphering")
+    print("---")
+    print("Original message: {}".format(strxor.strxor(message[:AES.block_size], base64.b64decode(iv))))
+    print("Forged message  : {}".format(strxor.strxor(forgery[:AES.block_size], base64.b64decode(forged_iv))))
+
 
 
 if __name__ == "__main__":
