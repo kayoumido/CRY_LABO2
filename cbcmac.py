@@ -133,7 +133,7 @@ def main():
     print("-----------------------")
     print("Message to tag: {}".format(message))
     print("AES-256 key used: {}".format(key))
-    
+
     print()
     print("Computing tag and IV...")
     print()

@@ -96,7 +96,6 @@ def decrypt(ciphertext, key):
     # generate the keys used by the encryption
     (key1, key2) = keyGen(key)
 
-    # scary math
     return GFVectorToBytes((key1^(-1)*(bytesToGFVector(ciphertext) - key2)))
 
 
